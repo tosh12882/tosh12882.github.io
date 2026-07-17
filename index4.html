@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>皆生トライアスロン SNS投稿</title>
+
+  <style>
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+      background:#f5f5f7;
+      margin:0;
+      padding:20px;
+      color:#1d1d1f;
+    }
+
+    .card{
+      max-width:520px;
+      margin:0 auto;
+      background:#fff;
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+
+    h1{
+      text-align:center;
+      margin-top:0;
+      font-size:28px;
+    }
+
+    .subtitle{
+      text-align:center;
+      color:#6e6e73;
+      margin-bottom:28px;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      padding:18px;
+      margin-bottom:16px;
+      border:none;
+      border-radius:18px;
+      font-size:18px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .btn:hover{ transform:translateY(-1px); }
+
+    .camera{ background:#007aff; color:#fff; }
+    .facebook{ background:#1877f2; color:#fff; }
+    .instagram{
+      background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+      color:#fff;
+    }
+    .copy{
+      background:#f2f2f7;
+      color:#1d1d1f;
+    }
+
+    .status{
+      text-align:center;
+      margin-top:12px;
+      font-size:14px;
+      color:#34c759;
+      min-height:20px;
+    }
+
+    video,img{
+      width:100%;
+      border-radius:16px;
+      margin-top:16px;
+      display:none;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:24px;
+      color:#8e8e93;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🏊‍♂️🚴‍♂️🏃‍♂️ 皆生トライアスロン</h1>
+  <p class="subtitle">
+    写真を撮って、SNSに投稿しよう！
+  </p>
+
+  <button class="btn camera" onclick="startCamera()">
+    📷 写真を撮る
+  </button>
+
+  <video id="video" autoplay playsinline></video>
+  <img id="preview" alt="撮影画像">
+
+  <button class="btn copy" onclick="copyTags()">
+    📋 ハッシュタグをコピー
+  </button>
+
+  <button class="btn facebook" onclick="openFacebook()">
+    📘 Facebookで投稿
+  </button>
+
+  <button class="btn instagram" onclick="openInstagram()">
+    📸 Instagramで投稿
+  </button>
+
+  <div class="status" id="status"></div>
+
+  <div class="footer">
+    #皆生トライアスロン #BRAVE&TRUE
+  </div>
+</div>
+
+<script>
+const hashtags = `#tetsujin.kaike
+#honeycomb_tape
+#全日本トライアスロン皆生大会
+#皆生トライアスロン
+#BRAVE&TRUE
+#一般社団法人ゼロバランス協会
+#ゼロバランス協会
+#ハニカムテープ
+#スパイダーテープ
+#コブウェブテープ
+#ラックッション
+#ComfortZオイル
+#honeycombtape
+#cobwebtape
+#テーピングサポート
+#トライアスリート応援
+#医療救護班
+#スポーツ救護
+#トライアスロン救護
+#ボランティア活動
+#大会サポート
+#境夢みなとターミナル
+#鳥取県
+#米子市
+#境港市
+#トライアスロン
+#triathlon`;
+
+async function copyTags(){
+  try{
+    await navigator.clipboard.writeText(hashtags);
+    document.getElementById('status').textContent =
+      '✅ ハッシュタグをコピーしました';
+  }catch(e){
+    alert('コピーに失敗しました');
+  }
+}
+
+async function startCamera(){
+  const video = document.getElementById('video');
+  const preview = document.getElementById('preview');
+
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'environment' }
+    });
+
+    video.srcObject = stream;
+    video.style.display = 'block';
+
+    // 2秒後に自動撮影
+    setTimeout(() => {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video,0,0);
+
+      preview.src = canvas.toDataURL('image/jpeg');
+      preview.style.display = 'block';
+
+      stream.getTracks().forEach(t => t.stop());
+      video.style.display = 'none';
+
+      document.getElementById('status').textContent =
+        '📸 撮影完了！次にSNSボタンを押してください';
+
+      // 自動でハッシュタグをコピー
+      copyTags();
+
+    },2000);
+
+  }catch(err){
+    alert('カメラを許可してください');
+  }
+}
+
+function openFacebook(){
+  // Facebookアプリを優先
+  window.location.href = 'fb://facewebmodal/f?href=https://www.facebook.com/';
+  setTimeout(() => {
+    window.open('https://www.facebook.com/', '_blank');
+  }, 1000);
+}
+
+function openInstagram(){
+  // Instagramアプリを優先
+  window.location.href = 'instagram://camera';
+  setTimeout(() => {
+    window.open('https://www.instagram.com/', '_blank');
+  }, 1000);
+}
+
+// ページを開いたら自動でハッシュタグをコピー
+window.addEventListener('load', () => {
+  copyTags();
+});
+</script>
+
+</body>
+</html>
