@@ -1,1 +1,38 @@
-index2.html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皆生トライアスロン Instagram投稿サポート</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #f4f6f9; }
+        .btn { display: inline-block; padding: 20px 40px; font-size: 20px; font-weight: bold; color: white; background: #E1306C; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn:active { transform: scale(0.98); }
+        p { font-size: 16px; color: #333; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2>皆生トライアスロン応援ブース</h2>
+    <p>下のボタンを押すと、ハッシュタグが自動コピーされてInstagramが起動します！</p>
+    
+    <button class="btn" onclick="copyAndOpen()">ハッシュタグをコピーして<br>Instagramを開く</button>
+
+    <script>
+        function copyAndOpen() {
+            // 指定されたハッシュタグ（※BRAVE&TRUEなどの最新リストに更新済み）
+            const tags = `#tetsujin.kaike\n#honeycomb_tape\n#全日本トライアスロン皆生大会\n#皆生トライアスロン\n#BRAVE&TRUE\n#一般社団法人ゼロバランス協会\n#ゼロバランス協会\n#ハニカムテープ\n#スパイダーテープ\n#コブウェブテープ\n#ラックッション\n#ComfortZオイル\n#honeycombtape\n#cobwebtape\n#テーピングサポート\n#トライアスリート応援\n#医療救護班\n#スポーツ救護\n#トライアスロン救護\n#ボランティア活動\n#大会サポート\n#境夢みなとターミナル\n#鳥取県\n#米子市\n#境港市\n#トライアスロン\n#triathlon_`;
+
+            // クリップボードにコピー
+            navigator.clipboard.writeText(tags).then(() => {
+                alert("ハッシュタグをコピーしました！Instagramが開いたら「貼り付け」して投稿してください！");
+                // Instagramの新規投稿画面を直接起動（Android用インテント）
+                window.location.href = "intent://instagram.com/_uploads/#Intent;package=com.instagram.android;scheme=https;end";
+            }).catch(err => {
+                alert("コピーに失敗しました。手動で選択してコピーしてください。");
+            });
+        }
+    </script>
+
+</body>
+</html>
