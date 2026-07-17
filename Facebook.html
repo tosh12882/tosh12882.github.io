@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皆生トライアスロン 投稿サポート</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #f4f6f9; }
+        .btn { display: inline-block; padding: 20px 40px; font-size: 20px; font-weight: bold; color: white; background: #1877F2; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn:active { transform: scale(0.98); }
+        p { font-size: 16px; color: #333; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2>皆生トライアスロン応援ブース</h2>
+    <p>下のボタンを押すと、ハッシュタグが自動コピーされてFacebookが起動します！</p>
+    
+    <button class="btn" onclick="copyAndOpen()">ハッシュタグをコピーして<br>Facebookを開く</button>
+
+    <script>
+        function copyAndOpen() {
+            // ハッシュタグのテキスト
+            const tags = `#tetsujin.kaike\n#honeycomb_tape\n#全日本トライアスロン皆生大会\n#皆生トライアスロン\n#医療救護班\n#スポーツ救護\n#トライアスロン救護\n#ボランティア活動\n#大会サポート\n#境夢みなとターミナル\n#鳥取県\n#米子市\n#境港市\n#テーピングサポート\n#トライアスリート応援\n#一般社団法人ゼロバランス協会\n#ゼロバランス協会\n#ハニカムテープ\n#スパイダーテープ\n#コブウェブテープ\n#ラックッション\n#ComfortZオイル\n#honeycombtape\n#cobwebtape\n#トライアスロン\n#triathlon_`;
+
+            // クリップボードにコピー
+            navigator.clipboard.writeText(tags).then(() => {
+                alert("ハッシュタグをコピーしました！Facebookが開いたら「貼り付け」してください。");
+                // Facebookアプリの投稿画面を起動（Android用インテントURL）
+                window.location.href = "intent://share#Intent;package=com.facebook.katana;scheme=fb;end";
+            }).catch(err => {
+                alert("コピーに失敗しました。手動で選択してコピーしてください。");
+            });
+        }
+    </script>
+
+</body>
+</html>
 
