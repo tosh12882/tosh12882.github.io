@@ -106,7 +106,7 @@
   <div class="status" id="status"></div>
 
   <div class="footer">
-    #皆生トライアスロン #BRAVE&TRUE
+    #BRAVE&TRUE #一般社団法人ゼロバランス協会
   </div>
 </div>
 
@@ -145,47 +145,8 @@ async function copyTags(){
     document.getElementById('status').textContent =
       '✅ ハッシュタグをコピーしました';
   }catch(e){
-    alert('コピーに失敗しました');
-  }
-}
+    alert('読込みにに失敗しました');
 
-async function startCamera(){
-  const video = document.getElementById('video');
-  const preview = document.getElementById('preview');
-
-  try{
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode:'environment' }
-    });
-
-    video.srcObject = stream;
-    video.style.display = 'block';
-
-    // 2秒後に自動撮影
-    setTimeout(() => {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video,0,0);
-
-      preview.src = canvas.toDataURL('image/jpeg');
-      preview.style.display = 'block';
-
-      stream.getTracks().forEach(t => t.stop());
-      video.style.display = 'none';
-
-      document.getElementById('status').textContent =
-        '📸 撮影完了！次にSNSボタンを押してください';
-
-      // 自動でハッシュタグをコピー
-      copyTags();
-
-    },2000);
-
-  }catch(err){
-    alert('カメラを許可してください');
   }
 }
 
